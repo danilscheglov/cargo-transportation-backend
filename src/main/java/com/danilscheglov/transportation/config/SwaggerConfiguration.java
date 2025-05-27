@@ -45,7 +45,7 @@ public class SwaggerConfiguration {
                         new Tag().name("Operators").description("API для управления операторами"),
                         new Tag().name("Flights").description("API для управления рейсами"),
                         new Tag().name("Orders").description("API для управления заказами"),
-                        new Tag().name("Cargo").description("API для управления грузами"),
-                        new Tag().name("Maintenance").description("API для управления заявками на техническое обслуживание")));
+                        new Tag().name("Cargos").description("API для управления грузами"),
+                        new Tag().name("Maintenance Requests").description("API для управления заявками на техническое обслуживание")));
     }
 }
