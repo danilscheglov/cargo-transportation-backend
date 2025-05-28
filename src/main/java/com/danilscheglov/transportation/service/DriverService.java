@@ -1,91 +1,36 @@
 package com.danilscheglov.transportation.service;
 
-import com.danilscheglov.transportation.dto.DriverDTO;
-import com.danilscheglov.transportation.entity.Driver;
+import com.danilscheglov.transportation.dto.UserDto;
+import com.danilscheglov.transportation.entity.User;
+import com.danilscheglov.transportation.entity.common.UserRole;
 import com.danilscheglov.transportation.exception.ResourceNotFoundException;
-import com.danilscheglov.transportation.exception.UniqueConstraintViolationException;
-import com.danilscheglov.transportation.repository.DriverRepository;
+import com.danilscheglov.transportation.mapper.UserMapper;
+import com.danilscheglov.transportation.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DriverService {
-    private final DriverRepository driverRepository;
 
-    public List<Driver> getAllDrivers() {
-        return driverRepository.findAll();
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
+    public List<UserDto> getAllDrivers() {
+        return userRepository.findAllByRole(UserRole.DRIVER).stream()
+                .map(userMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public Driver getDriverById(Long id) {
-        return driverRepository.findById(id)
+    public User getDriverById(Long id) {
+        return userRepository.findByIdAndRole(id, UserRole.DISPATCHER)
                 .orElseThrow(() -> new ResourceNotFoundException("Водитель с ID " + id + " не найден"));
     }
 
-    @Transactional
-    public Driver createDriver(DriverDTO driverDTO) {
-        validateUniqueConstraints(driverDTO);
-
-        Driver driver = Driver.builder()
-                .surname(driverDTO.getSurname())
-                .name(driverDTO.getName())
-                .patronymic(driverDTO.getPatronymic())
-                .phone(driverDTO.getPhone())
-                .email(driverDTO.getEmail())
-                .password(driverDTO.getPassword())
-                .build();
-
-        return driverRepository.save(driver);
-    }
-
-    @Transactional
-    public Driver updateDriver(Long id, DriverDTO driverDTO) {
-        Driver existingDriver = getDriverById(id);
-
-        if (!existingDriver.getEmail().equals(driverDTO.getEmail())) {
-            validateEmailUnique(driverDTO.getEmail());
-        }
-        if (!existingDriver.getPhone().equals(driverDTO.getPhone())) {
-            validatePhoneUnique(driverDTO.getPhone());
-        }
-
-        existingDriver.setSurname(driverDTO.getSurname());
-        existingDriver.setName(driverDTO.getName());
-        existingDriver.setPatronymic(driverDTO.getPatronymic());
-        existingDriver.setPhone(driverDTO.getPhone());
-        existingDriver.setEmail(driverDTO.getEmail());
-        if (driverDTO.getPassword() != null && !driverDTO.getPassword().isEmpty()) {
-            existingDriver.setPassword(driverDTO.getPassword());
-        }
-
-        return driverRepository.save(existingDriver);
-    }
-
-    @Transactional
-    public void deleteDriver(Long id) {
-        if (!driverRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Водитель с ID " + id + " не найден");
-        }
-        driverRepository.deleteById(id);
-    }
-
-    private void validateUniqueConstraints(DriverDTO driverDTO) {
-        validateEmailUnique(driverDTO.getEmail());
-        validatePhoneUnique(driverDTO.getPhone());
-    }
-
-    private void validateEmailUnique(String email) {
-        if (driverRepository.existsByEmail(email)) {
-            throw new UniqueConstraintViolationException("Водитель с email " + email + " уже существует");
-        }
-    }
-
-    private void validatePhoneUnique(String phone) {
-        if (driverRepository.existsByPhone(phone)) {
-            throw new UniqueConstraintViolationException("Водитель с телефоном " + phone + " уже существует");
-        }
+    public UserDto getDriverByIdDto(Long id) {
+        return userMapper.toDto(getDriverById(id));
     }
 }

@@ -27,12 +27,12 @@ public class Flight {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id", nullable = false)
     @Schema(description = "Водитель рейса")
-    private Driver driver;
+    private User driver;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dispatcher_id", nullable = false)
     @Schema(description = "Диспетчер рейса")
-    private Dispatcher dispatcher;
+    private User dispatcher;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)

@@ -26,7 +26,7 @@ public class MaintenanceRequestDTO {
 
     @NotNull(message = "ID механика обязателен")
     @Schema(description = "ID механика", example = "1")
-    private Long mechanicId;
+    private Long UserId;
 
     @NotNull(message = "Дата заполнения обязательна")
     @Schema(description = "Дата заполнения", example = "2024-03-15")

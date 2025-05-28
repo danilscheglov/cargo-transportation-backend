@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+       http://www.liquibase.org/xml/ns/dbchangelog
+       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- Users table -->
+    <changeSet id="001-create-users-table" author="Danil Scheglov">
+        <createTable tableName="users">
+            <column name="user_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_surname" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_patronymic" type="VARCHAR(50)"/>
+            <column name="user_phone" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_email" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="user_password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_role" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Car table -->
+    <changeSet id="002-create-car-table" author="Danil Scheglov">
+        <createTable tableName="car">
+            <column name="car_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+            <column name="car_number" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="car_model" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="car_brand" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="car_capacity" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="car_mileage" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="car_condition" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="car_last_maintenance_date" type="DATE"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Flight table -->
+    <changeSet id="003-create-flight-table" author="Danil Scheglov">
+        <createTable tableName="flight">
+            <column name="flight_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="driver_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dispatcher_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="car_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flight_startpoint" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flight_endpoint" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flight_distance" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flight_departure_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Orders table -->
+    <changeSet id="004-create-orders-table" author="Danil Scheglov">
+        <createTable tableName="orders">
+            <column name="order_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="flight_id" type="BIGINT"/>
+            <column name="order_startpoint" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_endpoint" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_dispatch_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_delivery_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Cargo table -->
+    <changeSet id="005-create-cargo-table" author="Danil Scheglov">
+        <createTable tableName="cargo">
+            <column name="cargo_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cargo_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cargo_weight" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cargo_volume" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Maintenance Request table -->
+    <changeSet id="006-create-maintenance-request-table" author="Danil Scheglov">
+        <createTable tableName="maintenance_request">
+            <column name="maintenance_request_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="car_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="filling_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="service_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="maintenance_request_status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="maintenance_request_note" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

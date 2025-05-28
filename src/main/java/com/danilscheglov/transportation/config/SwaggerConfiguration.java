@@ -39,10 +39,8 @@ public class SwaggerConfiguration {
                 .tags(List.of(
                         new Tag().name("Drivers").description("API для управления водителями"),
                         new Tag().name("Cars").description("API для управления автомобилями"),
-                        new Tag().name("Clients").description("API для управления клиентами"),
                         new Tag().name("Dispatchers").description("API для управления диспетчерами"),
                         new Tag().name("Mechanics").description("API для управления механиками"),
-                        new Tag().name("Operators").description("API для управления операторами"),
                         new Tag().name("Flights").description("API для управления рейсами"),
                         new Tag().name("Orders").description("API для управления заказами"),
                         new Tag().name("Cargos").description("API для управления грузами"),

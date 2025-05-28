@@ -25,9 +25,9 @@ public class Car {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id")
+    @JoinColumn(name = "user_id")
     @Schema(description = "Водитель автомобиля")
-    private Driver driver;
+    private User driver;
 
     @Column(name = "car_number", nullable = false, length = 20)
     @Schema(description = "Номер автомобиля", example = "А123БВ777")

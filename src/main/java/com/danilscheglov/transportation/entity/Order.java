@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @Schema(description = "Сущность заказа")
 @Entity
-@Table(name = "\"order\"")
+@Table(name = "orders")
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,14 +24,9 @@ public class Order {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @Schema(description = "Клиент, создавший заказ")
-    private Client client;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "operator_id", nullable = false)
-    @Schema(description = "Оператор, обрабатывающий заказ")
-    private Operator operator;
+    private User client;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")

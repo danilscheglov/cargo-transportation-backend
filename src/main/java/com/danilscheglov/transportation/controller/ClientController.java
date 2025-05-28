@@ -1,7 +1,7 @@
 package com.danilscheglov.transportation.controller;
 
-import com.danilscheglov.transportation.dto.ClientDTO;
-import com.danilscheglov.transportation.entity.Client;
+import com.danilscheglov.transportation.dto.UserDto;
+import com.danilscheglov.transportation.entity.User;
 import com.danilscheglov.transportation.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,46 +28,46 @@ public class ClientController {
 
     @Operation(summary = "Получить список всех клиентов")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список клиентов получен", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Client.class)))
+            @ApiResponse(responseCode = "200", description = "Список клиентов получен", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)))
     })
     @GetMapping
-    public ResponseEntity<List<Client>> getAllClients() {
+    public ResponseEntity<List<User>> getAllClients() {
         return ResponseEntity.ok(clientService.getAllClients());
     }
 
     @Operation(summary = "Получить клиента по ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Клиент найден", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Client.class))),
+            @ApiResponse(responseCode = "200", description = "Клиент найден", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "404", description = "Клиент не найден", content = @Content)
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<Client> getClientById(
-            @Parameter(description = "ID клиента") @PathVariable Long id) {
-        return ResponseEntity.ok(clientService.getClientById(id));
+    @GetMapping("/{email}")
+    public ResponseEntity<User> getClientById(
+            @Parameter(description = "ID клиента") @PathVariable String email) {
+        return ResponseEntity.ok(clientService.getClientByEmail(email));
     }
 
-    @Operation(summary = "Создать нового клиента")
+    @Operation(summary = "Создать нового пользователя")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Клиент создан", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Client.class))),
+            @ApiResponse(responseCode = "201", description = "Клиент создан", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "400", description = "Неверные данные", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<Client> createClient(
-            @Parameter(description = "Данные клиента") @Valid @RequestBody ClientDTO clientDTO) {
+    public ResponseEntity<User> createClient(
+            @Parameter(description = "Данные клиента") @Valid @RequestBody UserDto clientDTO) {
         return new ResponseEntity<>(clientService.createClient(clientDTO), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Обновить данные клиента")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Данные клиента обновлены", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Client.class))),
+            @ApiResponse(responseCode = "200", description = "Данные клиента обновлены", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "404", description = "Клиент не найден", content = @Content),
             @ApiResponse(responseCode = "400", description = "Неверные данные", content = @Content)
     })
-    @PutMapping("/{id}")
-    public ResponseEntity<Client> updateClient(
-            @Parameter(description = "ID клиента") @PathVariable Long id,
-            @Parameter(description = "Обновленные данные клиента") @Valid @RequestBody ClientDTO clientDTO) {
-        return ResponseEntity.ok(clientService.updateClient(id, clientDTO));
+    @PutMapping("/{email}")
+    public ResponseEntity<User> updateClient(
+            @Parameter(description = "ID клиента") @PathVariable String email,
+            @Parameter(description = "Обновленные данные клиента") @Valid @RequestBody UserDto clientDTO) {
+        return ResponseEntity.ok(clientService.updateClient(email, clientDTO));
     }
 
     @Operation(summary = "Удалить клиента")

@@ -25,10 +25,6 @@ public class OrderDTO {
     @Schema(description = "Идентификатор клиента", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long clientId;
 
-    @NotNull(message = "Идентификатор оператора не может быть пустым")
-    @Schema(description = "Идентификатор оператора", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Long operatorId;
-
     @Schema(description = "Идентификатор рейса", example = "1")
     private Long flightId;
 
@@ -51,8 +47,8 @@ public class OrderDTO {
     private LocalDate deliveryDate;
 
     @NotBlank(message = "Статус заказа не может быть пустым")
-    @Pattern(regexp = "^(Создан|В обработке|Подтвержден|В пути|Доставлен|Отменен)$", message = "Недопустимый статус заказа")
-    @Schema(description = "Статус заказа", example = "В обработке", allowableValues = { "Создан", "В обработке",
-            "Подтвержден", "В пути", "Доставлен", "Отменен" }, requiredMode = Schema.RequiredMode.REQUIRED)
+    @Pattern(regexp = "^(Создан|В обработке|В пути|Доставлен)$", message = "Недопустимый статус заказа")
+    @Schema(description = "Статус заказа", example = "В обработке", allowableValues = {"Создан", "В обработке",
+            "Подтвержден", "В пути", "Доставлен"}, requiredMode = Schema.RequiredMode.REQUIRED)
     private String status;
 }

@@ -59,7 +59,6 @@ public class OrderService {
         return OrderDTO.builder()
                 .id(order.getId())
                 .clientId(order.getClient().getId())
-                .operatorId(order.getOperator().getId())
                 .flightId(order.getFlight() != null ? order.getFlight().getId() : null)
                 .startpoint(order.getStartpoint())
                 .endpoint(order.getEndpoint())

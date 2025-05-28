@@ -3,10 +3,10 @@ package com.danilscheglov.transportation.service;
 import com.danilscheglov.transportation.dto.MaintenanceRequestDTO;
 import com.danilscheglov.transportation.entity.Car;
 import com.danilscheglov.transportation.entity.MaintenanceRequest;
-import com.danilscheglov.transportation.entity.Mechanic;
+import com.danilscheglov.transportation.entity.User;
 import com.danilscheglov.transportation.repository.CarRepository;
 import com.danilscheglov.transportation.repository.MaintenanceRequestRepository;
-import com.danilscheglov.transportation.repository.MechanicRepository;
+import com.danilscheglov.transportation.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class MaintenanceRequestService {
     private final MaintenanceRequestRepository maintenanceRequestRepository;
     private final CarRepository carRepository;
-    private final MechanicRepository mechanicRepository;
+    private final UserRepository UserRepository;
 
     @Transactional(readOnly = true)
     public List<MaintenanceRequestDTO> getAllMaintenanceRequests() {
@@ -63,13 +63,13 @@ public class MaintenanceRequestService {
         Car car = carRepository.findById(dto.getCarId())
                 .orElseThrow(() -> new EntityNotFoundException("Автомобиль с ID " + dto.getCarId() + " не найден"));
 
-        Mechanic mechanic = mechanicRepository.findById(dto.getMechanicId())
-                .orElseThrow(() -> new EntityNotFoundException("Механик с ID " + dto.getMechanicId() + " не найден"));
+        User User = UserRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("Механик с ID " + dto.getUserId() + " не найден"));
 
         return MaintenanceRequest.builder()
                 .id(dto.getId())
                 .car(car)
-                .mechanic(mechanic)
+                .User(User)
                 .fillingDate(dto.getFillingDate())
                 .serviceType(dto.getServiceType())
                 .status(dto.getStatus())
@@ -81,7 +81,7 @@ public class MaintenanceRequestService {
         return MaintenanceRequestDTO.builder()
                 .id(entity.getId())
                 .carId(entity.getCar().getId())
-                .mechanicId(entity.getMechanic().getId())
+                .UserId(entity.getUser().getId())
                 .fillingDate(entity.getFillingDate())
                 .serviceType(entity.getServiceType())
                 .status(entity.getStatus())
@@ -96,11 +96,11 @@ public class MaintenanceRequestService {
             entity.setCar(car);
         }
 
-        if (dto.getMechanicId() != null && !dto.getMechanicId().equals(entity.getMechanic().getId())) {
-            Mechanic mechanic = mechanicRepository.findById(dto.getMechanicId())
+        if (dto.getUserId() != null && !dto.getUserId().equals(entity.getUser().getId())) {
+            User User = UserRepository.findById(dto.getUserId())
                     .orElseThrow(
-                            () -> new EntityNotFoundException("Механик с ID " + dto.getMechanicId() + " не найден"));
-            entity.setMechanic(mechanic);
+                            () -> new EntityNotFoundException("Механик с ID " + dto.getUserId() + " не найден"));
+            entity.setUser(User);
         }
 
         entity.setFillingDate(dto.getFillingDate());

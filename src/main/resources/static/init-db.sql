@@ -102,7 +102,7 @@ create table maintenance_request
 (
     maintenance_request_id     SERIAL      not null,
     car_id                     INT4        not null,
-    mechanic_id                INT4        not null,
+    User_id                    INT4        not null,
     filling_date               DATE        not null,
     service_type               VARCHAR(50) not null,
     maintenance_request_status VARCHAR(20) not null,
@@ -111,18 +111,18 @@ create table maintenance_request
 );
 
 /*==============================================================*/
-/* Table: mechanic                                              */
+/* Table: User                                              */
 /*==============================================================*/
-create table mechanic
+create table User
 (
-    mechanic_id         SERIAL       not null,
-    mechanic_surname    VARCHAR(50)  not null,
-    mechanic_name       VARCHAR(50)  not null,
-    mechanic_patronymic VARCHAR(50) null,
-    mechanic_phone      VARCHAR(25)  not null,
-    mechanic_email      VARCHAR(100) not null,
-    mechanic_password   VARCHAR(255) not null,
-    constraint PK_MECHANIC primary key (mechanic_id)
+    User_id         SERIAL       not null,
+    User_surname    VARCHAR(50)  not null,
+    User_name       VARCHAR(50)  not null,
+    User_patronymic VARCHAR(50) null,
+    User_phone      VARCHAR(25)  not null,
+    User_email      VARCHAR(100) not null,
+    User_password   VARCHAR(255) not null,
+    constraint PK_User primary key (User_id)
 );
 
 /*==============================================================*/

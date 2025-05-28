@@ -1,9 +1,10 @@
 package com.danilscheglov.transportation.service;
 
-import com.danilscheglov.transportation.dto.ClientDTO;
-import com.danilscheglov.transportation.entity.Client;
+import com.danilscheglov.transportation.dto.UserDto;
+import com.danilscheglov.transportation.entity.User;
 import com.danilscheglov.transportation.exception.ResourceNotFoundException;
-import com.danilscheglov.transportation.repository.ClientRepository;
+import com.danilscheglov.transportation.mapper.UserMapper;
+import com.danilscheglov.transportation.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,33 +14,32 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ClientService {
-    private final ClientRepository clientRepository;
 
-    public List<Client> getAllClients() {
+    private final UserRepository clientRepository;
+    private final UserMapper userMapper;
+
+    public List<User> getAllClients() {
         return clientRepository.findAll();
     }
 
-    public Client getClientById(Long id) {
+    public User getClientById(Long id) {
         return clientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Клиент с ID " + id + " не найден"));
     }
 
-    @Transactional
-    public Client createClient(ClientDTO clientDTO) {
-        Client client = Client.builder()
-                .surname(clientDTO.getSurname())
-                .name(clientDTO.getName())
-                .patronymic(clientDTO.getPatronymic())
-                .phone(clientDTO.getPhone())
-                .email(clientDTO.getEmail())
-                .password(clientDTO.getPassword())
-                .build();
-        return clientRepository.save(client);
+    public User getClientByEmail(String email) {
+        return clientRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Клиент с email " + email + " не найден"));
     }
 
     @Transactional
-    public Client updateClient(Long id, ClientDTO clientDTO) {
-        Client existingClient = getClientById(id);
+    public User createClient(UserDto clientDTO) {
+        return clientRepository.save(userMapper.fromDto(clientDTO));
+    }
+
+    @Transactional
+    public User updateClient(String email, UserDto clientDTO) {
+        User existingClient = getClientByEmail(email);
         existingClient.setSurname(clientDTO.getSurname());
         existingClient.setName(clientDTO.getName());
         existingClient.setPatronymic(clientDTO.getPatronymic());

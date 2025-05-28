@@ -29,9 +29,9 @@ public class MaintenanceRequest {
     private Car car;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mechanic_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @Schema(description = "Механик")
-    private Mechanic mechanic;
+    private User User;
 
     @Column(name = "filling_date", nullable = false)
     @Schema(description = "Дата заполнения", example = "2024-03-15")
