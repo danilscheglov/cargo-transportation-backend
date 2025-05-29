@@ -18,16 +18,12 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public List<OrderDTO> getAllOrders() {
-        return orderRepository.findAll().stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+        return orderRepository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public OrderDTO getOrderById(Long id) {
-        return orderRepository.findById(id)
-                .map(this::convertToDto)
-                .orElseThrow(() -> new EntityNotFoundException("Заказ с ID " + id + " не найден"));
+        return orderRepository.findById(id).map(this::convertToDto).orElseThrow(() -> new EntityNotFoundException("Заказ с ID " + id + " не найден"));
     }
 
     @Transactional
@@ -39,8 +35,7 @@ public class OrderService {
 
     @Transactional
     public OrderDTO updateOrder(Long id, OrderDTO orderDto) {
-        Order existingOrder = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Заказ с ID " + id + " не найден"));
+        Order existingOrder = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Заказ с ID " + id + " не найден"));
 
         updateOrderFromDto(existingOrder, orderDto);
         Order updatedOrder = orderRepository.save(existingOrder);
@@ -55,28 +50,17 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
+    public List<OrderDTO> getOrderByEmail(String email) {
+        return orderRepository.findAllByClientEmail(email).stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
     private OrderDTO convertToDto(Order order) {
-        return OrderDTO.builder()
-                .id(order.getId())
-                .clientId(order.getClient().getId())
-                .flightId(order.getFlight() != null ? order.getFlight().getId() : null)
-                .startpoint(order.getStartpoint())
-                .endpoint(order.getEndpoint())
-                .dispatchDate(order.getDispatchDate())
-                .deliveryDate(order.getDeliveryDate())
-                .status(order.getStatus())
-                .build();
+        return OrderDTO.builder().id(order.getId()).clientId(order.getClient().getId()).flightId(order.getFlight() != null ? order.getFlight().getId() : null).startpoint(order.getStartpoint()).endpoint(order.getEndpoint()).dispatchDate(order.getDispatchDate()).deliveryDate(order.getDeliveryDate()).status(order.getStatus()).build();
     }
 
     private Order convertToEntity(OrderDTO orderDto) {
-        return Order.builder()
-                .id(orderDto.getId())
-                .startpoint(orderDto.getStartpoint())
-                .endpoint(orderDto.getEndpoint())
-                .dispatchDate(orderDto.getDispatchDate())
-                .deliveryDate(orderDto.getDeliveryDate())
-                .status(orderDto.getStatus())
-                .build();
+        return Order.builder().id(orderDto.getId()).startpoint(orderDto.getStartpoint()).endpoint(orderDto.getEndpoint()).dispatchDate(orderDto.getDispatchDate()).deliveryDate(orderDto.getDeliveryDate()).status(orderDto.getStatus()).build();
     }
 
     private void updateOrderFromDto(Order order, OrderDTO orderDto) {

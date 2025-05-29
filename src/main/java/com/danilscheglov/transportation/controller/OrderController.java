@@ -79,4 +79,14 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "Получить все заказы пользователя", description = "Возвращает список всех заказов пользователя в системе")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Список заказов успешно получен", content = @Content(schema = @Schema(implementation = OrderDTO.class)))
+    })
+    @GetMapping("/client/{email}")
+    public ResponseEntity<List<OrderDTO>> getAllOrdersUser(
+            @Parameter(description = "Email пользователя", example = "exmp@example.ru") @PathVariable String email) {
+        return ResponseEntity.ok(orderService.getOrderByEmail(email));
+    }
 }
