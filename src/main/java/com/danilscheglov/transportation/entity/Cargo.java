@@ -23,9 +23,7 @@ public class Cargo {
     @Schema(description = "Идентификатор груза", example = "1")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
-    @Schema(description = "Заказ, к которому относится груз")
+    @OneToOne(mappedBy = "cargo")
     private Order order;
 
     @Column(name = "cargo_type", nullable = false, length = 50)

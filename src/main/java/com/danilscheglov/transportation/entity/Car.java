@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Schema(description = "Сущность автомобиля")
 @Entity
@@ -28,6 +29,9 @@ public class Car {
     @JoinColumn(name = "user_id")
     @Schema(description = "Водитель автомобиля")
     private User driver;
+
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
+    private List<Order> orders;
 
     @Column(name = "car_number", nullable = false, length = 20)
     @Schema(description = "Номер автомобиля", example = "А123БВ777")

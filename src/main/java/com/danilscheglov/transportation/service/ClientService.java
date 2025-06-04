@@ -2,6 +2,7 @@ package com.danilscheglov.transportation.service;
 
 import com.danilscheglov.transportation.dto.UserDto;
 import com.danilscheglov.transportation.entity.User;
+import com.danilscheglov.transportation.entity.common.UserRole;
 import com.danilscheglov.transportation.exception.ResourceNotFoundException;
 import com.danilscheglov.transportation.mapper.UserMapper;
 import com.danilscheglov.transportation.repository.UserRepository;
@@ -19,7 +20,7 @@ public class ClientService {
     private final UserMapper userMapper;
 
     public List<User> getAllClients() {
-        return clientRepository.findAll();
+        return clientRepository.findAllByRole(UserRole.CLIENT);
     }
 
     public User getClientById(Long id) {

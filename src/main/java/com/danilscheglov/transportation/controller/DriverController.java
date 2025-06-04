@@ -1,5 +1,6 @@
 package com.danilscheglov.transportation.controller;
 
+import com.danilscheglov.transportation.dto.OrderDTO;
 import com.danilscheglov.transportation.dto.UserDto;
 import com.danilscheglov.transportation.service.DriverService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@PreAuthorize("hasRole('DRIVER')")
+@PreAuthorize("hasAnyRole('DISPATCHER', 'DRIVER')")
 @RestController
-@RequestMapping("/api/drivers")
+@RequestMapping("/api/driver")
 @RequiredArgsConstructor
 @Tag(name = "Drivers", description = "API для управления водителями")
 public class DriverController {
@@ -46,5 +47,11 @@ public class DriverController {
     public ResponseEntity<UserDto> getDriverById(
             @Parameter(description = "ID водителя") @PathVariable Long id) {
         return ResponseEntity.ok(driverService.getDriverByIdDto(id));
+    }
+
+    @GetMapping("/orders/{email}")
+    public ResponseEntity<List<OrderDTO>> getOrdersDriverByEmail(
+            @Parameter(description = "Email водителя") @PathVariable String email) {
+        return ResponseEntity.ok(driverService.getOrdersDriverByEmail(email));
     }
 }

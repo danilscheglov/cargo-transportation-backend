@@ -31,11 +31,11 @@ public class MaintenanceRequest {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @Schema(description = "Механик")
-    private User User;
+    private User mechanic;
 
-    @Column(name = "filling_date", nullable = false)
+    @Column(name = "created_at", nullable = false)
     @Schema(description = "Дата заполнения", example = "2024-03-15")
-    private LocalDate fillingDate;
+    private LocalDate createdAt;
 
     @Column(name = "service_type", nullable = false, length = 50)
     @Schema(description = "Тип обслуживания", example = "Плановое ТО")

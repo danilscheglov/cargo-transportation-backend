@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CargoDto {
+
     @Schema(description = "Идентификатор груза", example = "1")
     private Long id;
 
@@ -38,4 +39,5 @@ public class CargoDto {
     @DecimalMax(value = "1000.00", message = "Объем груза не может превышать 1000 кубических метров")
     @Schema(description = "Объем груза в кубических метрах", example = "2.5", minimum = "0.01", maximum = "1000.00", requiredMode = Schema.RequiredMode.REQUIRED)
     private BigDecimal volume;
+
 }

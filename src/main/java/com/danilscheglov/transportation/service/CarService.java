@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +25,10 @@ public class CarService {
     private final CarMapper carMapper;
     private final UserMapper userMapper;
 
-    public List<Car> getAllCars() {
-        return carRepository.findAll();
+    public List<CarDTO> getAllCars() {
+        return carRepository.findAll().stream()
+                .map(carMapper::toCarDto)
+                .collect(Collectors.toList());
     }
 
     public Car getCarById(Long id) {

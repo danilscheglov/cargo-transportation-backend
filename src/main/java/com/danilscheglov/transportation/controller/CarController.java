@@ -23,6 +23,7 @@ import java.util.List;
 @RequestMapping("/api/cars")
 @RequiredArgsConstructor
 public class CarController {
+
     private final CarService carService;
 
     @Operation(summary = "Получить список всех автомобилей", description = "Возвращает список всех автомобилей в системе")
@@ -30,7 +31,7 @@ public class CarController {
             @ApiResponse(responseCode = "200", description = "Список автомобилей успешно получен", content = @Content(schema = @Schema(implementation = Car.class)))
     })
     @GetMapping
-    public ResponseEntity<List<Car>> getAllCars() {
+    public ResponseEntity<List<CarDTO>> getAllCars() {
         return ResponseEntity.ok(carService.getAllCars());
     }
 

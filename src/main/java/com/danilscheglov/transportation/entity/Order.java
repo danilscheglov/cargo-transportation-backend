@@ -1,13 +1,13 @@
 package com.danilscheglov.transportation.entity;
 
+import com.danilscheglov.transportation.entity.common.OrderStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Schema(description = "Сущность заказа")
 @Entity
@@ -29,9 +29,18 @@ public class Order {
     private User client;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flight_id")
+    @JoinColumn(name = "driver_id")
+    @Schema(description = "Водитель, назначенный на заказ")
+    private User driver;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id")
     @Schema(description = "Рейс, назначенный на заказ")
-    private Flight flight;
+    private Car car;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "cargo_id")
+    private Cargo cargo;
 
     @Column(name = "order_startpoint", nullable = false, length = 255)
     @Schema(description = "Пункт отправления", example = "Москва, ул. Ленина 1")
@@ -41,15 +50,13 @@ public class Order {
     @Schema(description = "Пункт назначения", example = "Санкт-Петербург, ул. Невская 10")
     private String endpoint;
 
-    @Column(name = "order_dispatch_date", nullable = false)
-    @Schema(description = "Дата отправки", example = "2024-03-15")
-    private LocalDate dispatchDate;
-
-    @Column(name = "order_delivery_date", nullable = false)
-    @Schema(description = "Дата доставки", example = "2024-03-16")
-    private LocalDate deliveryDate;
-
     @Column(name = "order_status", nullable = false, length = 20)
     @Schema(description = "Статус заказа", example = "В обработке")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @Schema(description = "Дата и время создания заказа", example = "2025-05-29T15:30:00")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

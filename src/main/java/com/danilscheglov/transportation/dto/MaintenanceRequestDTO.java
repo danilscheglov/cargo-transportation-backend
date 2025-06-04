@@ -22,11 +22,11 @@ public class MaintenanceRequestDTO {
 
     @NotNull(message = "ID автомобиля обязателен")
     @Schema(description = "ID автомобиля", example = "1")
-    private Long carId;
+    private CarDTO car;
 
     @NotNull(message = "ID механика обязателен")
     @Schema(description = "ID механика", example = "1")
-    private Long UserId;
+    private UserDto mechanic;
 
     @NotNull(message = "Дата заполнения обязательна")
     @Schema(description = "Дата заполнения", example = "2024-03-15")

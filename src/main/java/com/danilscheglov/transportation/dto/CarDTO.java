@@ -1,10 +1,7 @@
 package com.danilscheglov.transportation.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,10 +10,13 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class CarDTO {
     private Long id;
 
     private Long driverId;
+
+    private UserDto driver;
 
     @NotBlank(message = "Номер автомобиля обязателен")
     @Pattern(regexp = "^[АВЕКМНОРСТУХ]\\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\\d{2,3}$", message = "Неверный формат номера автомобиля. Пример: А123ВС77")
@@ -37,7 +37,10 @@ public class CarDTO {
     private Integer mileage;
 
     @NotBlank(message = "Состояние автомобиля обязательно")
-    @Pattern(regexp = "^(EXCELLENT|GOOD|SATISFACTORY|NEEDS_REPAIR|OUT_OF_SERVICE)$", message = "Недопустимое состояние автомобиля")
+    @Pattern(
+            regexp = "^(OPERATIONAL|IN_SERVICE|UNDER_REPAIR)$",
+            message = "Недопустимое состояние автомобиля"
+    )
     private String condition;
 
     private LocalDate lastMaintenanceDate;
